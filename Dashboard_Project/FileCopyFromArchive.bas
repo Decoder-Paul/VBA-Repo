@@ -1,11 +1,11 @@
 Attribute VB_Name = "FileCopyFromArchive"
 Sub archiveFileExtraction()
+'--- Written by Subhankar Paul
     Dim WB As Workbook
     Dim WS_COPS As Worksheet
     Dim WS_DA As Worksheet
     Set WB = ActiveWorkbook
     Set WS_COPS = WB.Sheets("Cops DashBoard")
-    
     Dim startDate As Date
     Dim endDate As Date
     
@@ -14,7 +14,6 @@ Sub archiveFileExtraction()
     
     startDate = WS_COPS.Cells(14, 7).Value
     endDate = WS_COPS.Cells(14, 9).Value
-    
 End Sub
 Sub copyFileOnDateMatch()
 '========================================================================================================
