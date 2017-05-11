@@ -20,6 +20,8 @@ Sub ticketCount()
 '    are considered for OnHold Tickets
 ' -> Respond and RespondSLA is now calculated for today's recieved ticket only
 ' -> Event Ticket is added as new Ticket type
+' -> The Resolution SLA for SRQ Tickets of all clients will be NA,  because
+'    there is no metrics for calculation of Resolution SLA for Service Request tickets.
 '========================================================================================================
 
 Application.ScreenUpdating = False
@@ -184,17 +186,17 @@ Dim SRQ_Efrt_p5 As Double
 
 Dim SRQ_TeamSize As Long
 
-Dim SRQ_RspSLA_p1 As Long
-Dim SRQ_RspSLA_p2 As Long
-Dim SRQ_RspSLA_p3 As Long
-Dim SRQ_RspSLA_p4 As Long
-Dim SRQ_RspSLA_p5 As Long
-
-Dim SRQ_ResSLA_p1 As Long
-Dim SRQ_ResSLA_p2 As Long
-Dim SRQ_ResSLA_p3 As Long
-Dim SRQ_ResSLA_p4 As Long
-Dim SRQ_ResSLA_p5 As Long
+'Dim SRQ_RspSLA_p1 As Long
+'Dim SRQ_RspSLA_p2 As Long
+'Dim SRQ_RspSLA_p3 As Long
+'Dim SRQ_RspSLA_p4 As Long
+'Dim SRQ_RspSLA_p5 As Long
+'
+'Dim SRQ_ResSLA_p1 As Long
+'Dim SRQ_ResSLA_p2 As Long
+'Dim SRQ_ResSLA_p3 As Long
+'Dim SRQ_ResSLA_p4 As Long
+'Dim SRQ_ResSLA_p5 As Long
 
 '------------- All Counter for CHANGES Request -----------------
 Dim CHG_opBal_p1 As Long
@@ -363,6 +365,10 @@ Dim EVT_ResSLA_p5 As Long
 
 Sheets(sheetData).Select
 
+If Sheets(sheetData).AutoFilterMode = True Then
+    Sheets(sheetData).AutoFilterMode = False
+End If
+
 Dim Data_rowCount, Data_i, j As Integer
 Dim UResoCount As Long
 
@@ -373,7 +379,7 @@ Dim effort As Double
 Dim open_date, closed_date, today, element, assigned_date As Variant
 Dim age_of_tkt As Variant
 
-today = Date - 1
+today = dateOfAnalysis
 
 
 Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
@@ -708,9 +714,9 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                     Case 1
                         SRQ_Efrt_p1 = SRQ_Efrt_p1 + effort
                         
-                        If resolution = "Y" Then
-                            SRQ_ResSLA_p1 = SRQ_ResSLA_p1 + 1
-                        End If
+'                        If resolution = "Y" Then
+'                            SRQ_ResSLA_p1 = SRQ_ResSLA_p1 + 1
+'                        End If
                         If open_date < today Then
                             SRQ_opBal_p1 = SRQ_opBal_p1 + 1
                             If closed_date = "" Then
@@ -722,7 +728,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                             End If
                         Else
                             If rspnd = "Y" Then
-                                SRQ_RspSLA_p1 = SRQ_RspSLA_p1 + 1
+'                                SRQ_RspSLA_p1 = SRQ_RspSLA_p1 + 1
                                 SRQ_Rspnd_p1 = SRQ_Rspnd_p1 + 1
                             ElseIf rspnd = "N" Then
                                 SRQ_Rspnd_p1 = SRQ_Rspnd_p1 + 1
@@ -759,9 +765,9 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                         End If
                     Case 2
                         SRQ_Efrt_p2 = SRQ_Efrt_p2 + effort
-                        If resolution = "Y" Then
-                            SRQ_ResSLA_p2 = SRQ_ResSLA_p2 + 1
-                        End If
+'                        If resolution = "Y" Then
+'                            SRQ_ResSLA_p2 = SRQ_ResSLA_p2 + 1
+'                        End If
                         If open_date < today Then
                             SRQ_opBal_p2 = SRQ_opBal_p2 + 1
                             If closed_date = "" Then
@@ -773,7 +779,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                             End If
                         Else
                             If rspnd = "Y" Then
-                                SRQ_RspSLA_p2 = SRQ_RspSLA_p2 + 1
+'                                SRQ_RspSLA_p2 = SRQ_RspSLA_p2 + 1
                                 SRQ_Rspnd_p2 = SRQ_Rspnd_p2 + 1
                             ElseIf rspnd = "N" Then
                                 SRQ_Rspnd_p2 = SRQ_Rspnd_p2 + 1
@@ -810,9 +816,9 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                         End If
                     Case 3
                         SRQ_Efrt_p3 = SRQ_Efrt_p3 + effort
-                        If resolution = "Y" Then
-                            SRQ_ResSLA_p3 = SRQ_ResSLA_p3 + 1
-                        End If
+'                        If resolution = "Y" Then
+'                            SRQ_ResSLA_p3 = SRQ_ResSLA_p3 + 1
+'                        End If
                         If open_date < today Then
                             SRQ_opBal_p3 = SRQ_opBal_p3 + 1
                             If closed_date = "" Then
@@ -824,7 +830,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                             End If
                         Else
                             If rspnd = "Y" Then
-                                SRQ_RspSLA_p3 = SRQ_RspSLA_p3 + 1
+'                                SRQ_RspSLA_p3 = SRQ_RspSLA_p3 + 1
                                 SRQ_Rspnd_p3 = SRQ_Rspnd_p3 + 1
                             ElseIf rspnd = "N" Then
                                 SRQ_Rspnd_p3 = SRQ_Rspnd_p3 + 1
@@ -861,9 +867,9 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                         End If
                     Case 4
                         SRQ_Efrt_p4 = SRQ_Efrt_p4 + effort
-                        If resolution = "Y" Then
-                            SRQ_ResSLA_p4 = SRQ_ResSLA_p4 + 1
-                        End If
+'                        If resolution = "Y" Then
+'                            SRQ_ResSLA_p4 = SRQ_ResSLA_p4 + 1
+'                        End If
                         If open_date < today Then
                             SRQ_opBal_p4 = SRQ_opBal_p4 + 1
                             If closed_date = "" Then
@@ -875,7 +881,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                             End If
                         Else
                             If rspnd = "Y" Then
-                                SRQ_RspSLA_p4 = SRQ_RspSLA_p4 + 1
+'                                SRQ_RspSLA_p4 = SRQ_RspSLA_p4 + 1
                                 SRQ_Rspnd_p4 = SRQ_Rspnd_p4 + 1
                             ElseIf rspnd = "N" Then
                                 SRQ_Rspnd_p4 = SRQ_Rspnd_p4 + 1
@@ -912,9 +918,9 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                         End If
                     Case 5
                         SRQ_Efrt_p5 = SRQ_Efrt_p5 + effort
-                        If resolution = "Y" Then
-                            SRQ_ResSLA_p5 = SRQ_ResSLA_p5 + 1
-                        End If
+'                        If resolution = "Y" Then
+'                            SRQ_ResSLA_p5 = SRQ_ResSLA_p5 + 1
+'                        End If
                         If open_date < today Then
                             SRQ_opBal_p5 = SRQ_opBal_p5 + 1
                             If closed_date = "" Then
@@ -926,7 +932,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
                             End If
                         Else
                             If rspnd = "Y" Then
-                                SRQ_RspSLA_p5 = SRQ_RspSLA_p5 + 1
+'                                SRQ_RspSLA_p5 = SRQ_RspSLA_p5 + 1
                                 SRQ_Rspnd_p5 = SRQ_Rspnd_p5 + 1
                             ElseIf rspnd = "N" Then
                                 SRQ_Rspnd_p5 = SRQ_Rspnd_p5 + 1
@@ -1741,7 +1747,7 @@ Data_rowCount = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
    
 Sheets(sheetDbd).Select
 
-Cells(10, 2).Value = Date - 1
+Cells(10, 2).Value = dateOfAnalysis
 Cells(10, 8).Value = Res_count_Dict_TeamSize
     
 '--------------- printing INCIDENT value to the respective cells ------------
@@ -1807,8 +1813,10 @@ Cells(12, 16).Value = SRQ_Rspnd_p1
 Cells(13, 16).Value = SRQ_Rsolv_p1
 Cells(14, 16).Value = SRQ_caOvr_p1
 Cells(22, 16).Value = SRQ_Efrt_p1 / 60
-Cells(24, 16).Value = SRQ_RspSLA_p1
-Cells(25, 16).Value = SRQ_ResSLA_p1
+'Response SLA
+Cells(24, 16).Value = "N/A"
+'Resolution SLA
+Cells(25, 16).Value = "N/A"
 
 Cells(10, 17).Value = SRQ_opBal_p2
 Cells(11, 17).Value = SRQ_Recv_p2
@@ -1816,8 +1824,8 @@ Cells(12, 17).Value = SRQ_Rspnd_p2
 Cells(13, 17).Value = SRQ_Rsolv_p2
 Cells(14, 17).Value = SRQ_caOvr_p2
 Cells(22, 17).Value = SRQ_Efrt_p2 / 60
-Cells(24, 17).Value = SRQ_RspSLA_p2
-Cells(25, 17).Value = SRQ_ResSLA_p2
+Cells(24, 17).Value = "N/A"
+Cells(25, 17).Value = "N/A"
 
 Cells(10, 18).Value = SRQ_opBal_p3
 Cells(11, 18).Value = SRQ_Recv_p3
@@ -1825,8 +1833,8 @@ Cells(12, 18).Value = SRQ_Rspnd_p3
 Cells(13, 18).Value = SRQ_Rsolv_p3
 Cells(14, 18).Value = SRQ_caOvr_p3
 Cells(22, 18).Value = SRQ_Efrt_p3 / 60
-Cells(24, 18).Value = SRQ_RspSLA_p3
-Cells(25, 18).Value = SRQ_ResSLA_p3
+Cells(24, 18).Value = "N/A"
+Cells(25, 18).Value = "N/A"
 
 Cells(10, 19).Value = SRQ_opBal_p4
 Cells(11, 19).Value = SRQ_Recv_p4
@@ -1834,8 +1842,8 @@ Cells(12, 19).Value = SRQ_Rspnd_p4
 Cells(13, 19).Value = SRQ_Rsolv_p4
 Cells(14, 19).Value = SRQ_caOvr_p4
 Cells(22, 19).Value = SRQ_Efrt_p4 / 60
-Cells(24, 19).Value = SRQ_RspSLA_p4
-Cells(25, 19).Value = SRQ_ResSLA_p4
+Cells(24, 19).Value = "N/A"
+Cells(25, 19).Value = "N/A"
 
 Cells(10, 20).Value = SRQ_opBal_p5
 Cells(11, 20).Value = SRQ_Recv_p5
@@ -1843,8 +1851,9 @@ Cells(12, 20).Value = SRQ_Rspnd_p5
 Cells(13, 20).Value = SRQ_Rsolv_p5
 Cells(14, 20).Value = SRQ_caOvr_p5
 Cells(22, 20).Value = SRQ_Efrt_p5 / 60
-Cells(24, 20).Value = SRQ_RspSLA_p5
-Cells(25, 20).Value = SRQ_ResSLA_p5
+Cells(24, 20).Value = "N/A"
+Cells(25, 20).Value = "N/A"
+
 Range("P15:T15").Value = SRQ_OnHold_Array
 
 Range("P16:T16").Value = SRQ_Queue_Array
