@@ -337,6 +337,9 @@ Dim BI As Variant
 
 Dim i As Long
 Dim j As Long
+Dim R As Row
+Dim C As Column
+
 
 Dim Cellda As Range
 
@@ -362,6 +365,8 @@ lro = WS_In.Cells(Rows.Count, "A").End(xlUp).Row
 
 'Sorting to take out the Problem to the next sheet
 WS_In.Range("A2:P" & lro).Sort Key1:=Range("a2"), Order1:=xlAscending
+
+
 For i = 2 To lro
     If WS_In.Cells(i, 2).Value = "ACT" Then
         WS_In.Cells(i, 2).Value = "CHG"
@@ -371,8 +376,9 @@ For i = 2 To lro
         WS_In.Cells(i, 12).Value = 3
     End If
     
+
 'Making all P4 and P5 tickets Resolution and Response "Y" because there is no SLA for the tickets @mathews
-    If WS_In.Cells(i, 12).Value = 4 Or WS_In.Cells(i, 12).Value = 5 And WS_In(i, 11).Value <> "" Then
+    If (WS_In.Cells(i, 12).Value = 4 Or WS_In.Cells(i, 12).Value = 5) And WS_In.Cells(i, 11).Value <> "" Then
        WS_In.Cells(i, 3).Value = "Y"
        WS_In.Cells(i, 4).Value = "Y"
     End If
@@ -695,7 +701,7 @@ For i = 2 To lro
     If WS_In.Cells(i, 7).Value = "'-" Then
             WS_In.Cells(i, 7).Value = ""
     End If
- ' Diff = (Date - 1) - WS_In.Cells(i, 10).Value
+ ' Diff = dateOfAnalysis - WS_In.Cells(i, 10).Value
   
     If WS_In.Cells(i, 7).Value <> "" Then
     
@@ -790,6 +796,16 @@ Sub pHERDD()
         End If
     Next i
     lro = WS_In.Cells(Rows.Count, "B").End(xlUp).Row
+    
+    'In Ticket Number column if it contains 'SR' considering ticket type as SRQ or if it is 'IN' considering as INC   @Shambhavi
+    For i = 2 To lro
+        If Left(Cells(i, 5).Value, 2) = "IN" Then
+            Cells(i, 2).Value = "INC"
+        End If
+        If Left(Cells(i, 5).Value, 2) = "SR" Then
+            Cells(i, 2).Value = "SRQ"
+        End If
+    Next i
 
 '---- Making Response SLA 'Y' @Subhankar
     WS_In.Range(WS_In.Cells(R + 2, C + 3), WS_In.Cells(R + lro, C + 3)).Formula = "Y"
@@ -803,7 +819,7 @@ Sub pHERDD()
         Else
             Debug.Print WS_In.Cells(i, 12).Value
         End If
-'       Resolution sla "Y" only for Resolved Ticket
+        
         If WS_In.Cells(i, 10).Value <> "" Then
             WS_In.Cells(i, 4).Value = UCase(WS_In.Cells(i, 4).Value)
         Else

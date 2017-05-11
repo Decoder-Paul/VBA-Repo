@@ -2,6 +2,7 @@ Attribute VB_Name = "MainProgram"
 Public sCFilNam As String
 Public StartTime As Double
 Public SecondsElapsed As Double
+Public dateOfAnalysis As Date
 
 Option Explicit
 
@@ -11,6 +12,8 @@ Sub pMain()
 StartTime = Timer
 Application.ScreenUpdating = False
 Application.DisplayAlerts = False
+dateOfAnalysis = Date - 1
+
 Calls.pOpenApp
 
 Call pDataFromFolder

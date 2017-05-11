@@ -31,8 +31,8 @@ Sub MailToCloud()
     On Error Resume Next
     With OutMail
         .To = "Sangeetha.Anand@trianz.com;Badhrinath.S@trianz.com;RajKiran.Akkera@trianz.com"
-        .CC = "Rakesh.Vijendra@trianz.com"
-        .BCC = ""
+        .CC = "Rakesh.Vijendra@trianz.com; mathews.jacob@trianz.com"
+        .BCC = "Subhankar.Paul@trianz.com;Shambhavi.BM@trianz.com"
         .Subject = submsg
         '.Body = strbody
         Call pCreateJpg("REP", "B1:F17", "DashboardFile.jpg")
@@ -45,9 +45,9 @@ Sub MailToCloud()
             & "<img src='cid:DashboardFile.jpg'" & "align=center width=width height=heigth><br><br>" _
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
-        sNam = "\" & "COPS Dashboard " & Date - 1 & ".xlsx"
+        sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
         .Attachments.Add TempFilePath & sNam
-        TempFilePath = "D:\Project COPS DashBoard\DashBoardBackup\MainData backup\MainData " & Date - 1 & ".xlsx"
+        TempFilePath = "D:\Project COPS DashBoard\DashBoardBackup\MainData backup\MainData " & dateOfAnalysis & ".xlsx"
         .Attachments.Add TempFilePath
         .Send
     End With
@@ -182,7 +182,7 @@ Sub pAutoEmail()
 '========================================================================================================
 
     Dim submsg As String
-    submsg = "Client Operations Dashboard (COPS) :: As On : " & Format(Date - 1, "mmmm dd, yyyy")
+    submsg = "Client Operations Dashboard (COPS) :: As On : " & Format(dateOfAnalysis, "mmmm dd, yyyy")
     Dim OutApp As Object
     Dim OutMail As Object
     Dim strbody As String
@@ -211,7 +211,7 @@ Sub pAutoEmail()
             & "<img src='cid:DashboardFile.jpg'" & "align=center width=width height=heigth><br><br>" _
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
-        sNam = "\" & "COPS Dashboard " & Date - 1 & ".xlsx"
+        sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
         .Attachments.Add TempFilePath & sNam
         .Send
     End With

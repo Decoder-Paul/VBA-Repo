@@ -1,5 +1,6 @@
 Attribute VB_Name = "Clients"
 Option Explicit
+
 Sub pHER(icount As Long)
     
     Dim WB As Workbook
@@ -48,25 +49,28 @@ If Left(LCase(WS_DaIn.Cells(icount, 1).Value), 6) = "inflow" Or _
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            'copy and paste dump only if lro is greater than or equal to 2
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets(sP1).Activate
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
     End If
                 
@@ -88,25 +92,27 @@ ElseIf Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "outflow" Or _
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
-            Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
+           Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets(sP1).Activate
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
   End If
   
@@ -127,29 +133,32 @@ ElseIf Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "opening" Then
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets(sP1).Activate
             Sheets(sP1).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
    End If
 End If
 End Sub
+'------------------------------------------------------------------------------
  Sub pNYL(icount As Long)
   
   Dim WB As Workbook
@@ -199,25 +208,27 @@ Sheets(sDaIn).Range("a1").Select
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets("Page 1").Activate
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
   End If
                 
@@ -239,25 +250,27 @@ ElseIf Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "outflow" Or _
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets("Page 1").Activate
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
   End If
   
@@ -278,31 +291,33 @@ ElseIf Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "opening" Then
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets("Page 1").Activate
             Sheets("Page 1").Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
    End If
  End If
  
 End Sub
-
+'----------------------------------------------------------------------------------------------
 Sub pMAS(icount As Long)
  Dim WB As Workbook
   Dim WS_DaIn As Worksheet
@@ -350,25 +365,27 @@ If Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "outflow" Or _
             Sheets(sR2).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets(sR2).Activate
             Sheets(sR2).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
   End If
   
@@ -389,30 +406,34 @@ ElseIf Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "opening" Then
             Sheets(sR2).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(1, 1), Cells(lro, lco)).Copy
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(1, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
         Else
             Sheets(sR2).Activate
             Sheets(sR2).Range("a1").Select
             lro = Cells(Rows.Count, "A").End(xlUp).Row
             lco = Cells(1, Columns.Count).End(xlToRight).Column
-            Range(Cells(2, 1), Cells(lro, lco)).Copy
-            
-            Workbooks(sCFilNam).Activate
-            Sheets(sIn).Activate
-            Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-            Application.CutCopyMode = False
+            If lro >= 2 Then
+                Range(Cells(2, 1), Cells(lro, lco)).Copy
+                Workbooks(sCFilNam).Activate
+                Sheets(sIn).Activate
+                Sheets(sIn).Cells(lroInc + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+                Application.CutCopyMode = False
+            End If
             Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-        
        End If
    End If
  End If
 
 End Sub
+
+'------------------------------------------------------------------------------------------
 Sub pEquinix(icount As Long)
  Dim WB As Workbook
   Dim WS_DaIn As Worksheet
@@ -456,16 +477,19 @@ If Left(LCase(WS_DaIn.Cells(icount, 1).Value), 7) = "opening" Then
         Sheets(sR2).Range("a1").Select
         lro = Cells(Rows.Count, "A").End(xlUp).Row
         lco = Cells(1, Columns.Count).End(xlToRight).Column
-        Range(Cells(1, 1), Cells(lro, lco)).Copy
-        Workbooks(sCFilNam).Activate
-        Sheets(sIn).Activate
-        Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
-        Application.CutCopyMode = False
+        If lro >= 2 Then
+            Range(Cells(1, 1), Cells(lro, lco)).Copy
+            Workbooks(sCFilNam).Activate
+            Sheets(sIn).Activate
+            Sheets(sIn).Range("a1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+            Application.CutCopyMode = False
+        End If
         Workbooks(WS_DaIn.Cells(icount, 1).Value).Close
-
    End If
 End If
 
 End Sub
+
+
 
 

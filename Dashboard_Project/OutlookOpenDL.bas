@@ -107,7 +107,7 @@ Sub ExtractFirstUnreadEmailDetails(OutlookObj As Object)
 
     '~~> New File Name for the attachment
     Dim NewFileName As String
-    NewFileName = AttachmentPath & Format(Date, "DD-MM-YYYY") & "-"
+    NewFileName = AttachmentPath & Format(dateOfAnalysis + 1, "DD-MM-YYYY") & "-"
     '~~> Outlook Variables for email
     Dim eSender As String, dtRecvd As String, dtSent As String
     Dim sSubj As String, sMsg As String

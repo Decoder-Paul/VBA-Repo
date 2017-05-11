@@ -255,6 +255,8 @@ Call pAutoEmail
 End Sub
 Sub colorIndicator()
 
+'Purpose of this program is to put the color code in the Project master Report Email format.
+
 Dim WB As Workbook
 Dim WS_Rep As Worksheet
 Dim WS_Pro As Worksheet
@@ -285,6 +287,8 @@ End With
 End Sub
 Sub pCopsDB()
 
+' Purpose of this program is to copy the details into cops dashboard file which goes along with email has an attachment
+
 Dim sPath As String
 Dim wkb As Workbook
 Dim sNam As String
@@ -294,9 +298,9 @@ sPath = Application.ActiveWorkbook.Path
 'Adding New Workbook
 Set wkb = Workbooks.Add
 'Saving the Workbook
-sNam = sPath & "\" & "COPS Dashboard " & Date - 1 & ".xlsx"
+sNam = sPath & "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
 wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConflictResolution.xlLocalSessionChanges
-sWSNam = "COPS Dashboard " & Date - 1 & ".xlsx"
+sWSNam = "COPS Dashboard " & dateOfAnalysis & ".xlsx"
 
     Windows(sCFilNam).Activate
 If fSheetExists("NYL") = True Then
@@ -346,6 +350,11 @@ If fSheetExists("Project or Cluster") = True Then
     Sheets("Project or Cluster").Copy Before:=Workbooks(sWSNam).Sheets(1)
 End If
 
+  Windows(sWSNam).Activate
+If fSheetExists("Sheet1") = True Then
+    Sheets("Sheet1").Delete
+End If
+
 Workbooks(sWSNam).Save
 Workbooks(sWSNam).Close
 Call pCopyMainData
@@ -368,9 +377,9 @@ sPath = Application.ActiveWorkbook.Path
 'Adding New Workbook
 Set wkb = Workbooks.Add
 'Saving the Workbook
-sNam = sPath & "Backup\MainData backup\" & "MainData " & Date - 1 & ".xlsx"
+sNam = sPath & "Backup\MainData backup\" & "MainData " & dateOfAnalysis & ".xlsx"
 wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConflictResolution.xlLocalSessionChanges
-sWSNam = "MainData " & Date - 1 & ".xlsx"
+sWSNam = "MainData " & dateOfAnalysis & ".xlsx"
 
     Windows(sCFilNam).Activate
 If fSheetExists("MainData") = True Then
@@ -428,7 +437,6 @@ Dim sDa As String
 Dim lro As Long
 Dim tkt_type As String
 Dim opened_date As Long
-Dim today As Variant
 Dim i As Long
 
 sDa = "MainData"
@@ -439,8 +447,9 @@ WB.Sheets(sDa).Activate
 Sheets(sDa).Select
 lro = Cells(Rows.Count, "A").End(xlUp).Row
 
+Cells(1, 1).Value = dateOfAnalysis
 If lro >= 4 Then
-    Range(Cells(4, 15), Cells(lro, 15)).Formula = "=IFERROR(IF(P4="""","""",IF(J4="""",DATEDIF(P4,TODAY()-1,""d""),DATEDIF(P4,J4,""d""))),0)"
+    Range(Cells(4, 15), Cells(lro, 15)).Formula = "=IFERROR(IF(P4="""","""",IF(J4="""",DATEDIF(P4,$A$1,""d""),DATEDIF(P4,J4,""d""))),0)"
 End If
 
 For i = 4 To lro
@@ -449,16 +458,15 @@ For i = 4 To lro
     If Cells(i, 16).Value = "" Then
         tkt_type = Cells(i, 2).Value
         opened_date = Cells(i, 9).Value
-        today = Date - 1
         
-        If tkt_type = "INC" And (today - opened_date) >= 2 Then
-            Cells(i, 15).Value = today - opened_date
+        If tkt_type = "INC" And (dateOfAnalysis - opened_date) >= 2 Then
+            Cells(i, 15).Value = dateOfAnalysis - opened_date
         Else
             Cells(i, 15).Value = ""
         End If
         
-        If (tkt_type = "SRQ" Or tkt_type = "CHG" Or tkt_type = "PRB") And (today - opened_date) > 5 Then
-            Cells(i, 15).Value = today - opened_date
+        If (tkt_type = "SRQ" Or tkt_type = "CHG" Or tkt_type = "PRB") And (dateOfAnalysis - opened_date) > 5 Then
+            Cells(i, 15).Value = dateOfAnalysis - opened_date
         Else
             Cells(i, 15).Value = ""
         End If
