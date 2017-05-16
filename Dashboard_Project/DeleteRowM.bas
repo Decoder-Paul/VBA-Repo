@@ -711,6 +711,10 @@ For i = 2 To lro
     End If
 Next i
 
+For i = 2 To lro
+    WS_In.Cells(i, 13).Value = WS_In.Cells(i, 11).Value * 60
+Next i
+
 Sheets(sDa).Select
 '-- For All received ticket the response SLA is Y
 WS_DA.Range(Cells(R + 4, C + 3), Cells(R + lro + 2, C + 3)).Formula = "Y"
@@ -719,7 +723,9 @@ WS_DA.Range(Cells(R + 4, C + 3), Cells(R + lro + 2, C + 3)).Formula = "Y"
 WS_In.Range("L2:L" & lro).Copy
 WS_DA.Range("D4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
 
-WS_DA.Range(Cells(R + 4, C + 12), Cells(R + lro + 2, C + 12)).Formula = "0"
+WS_In.Range("M2:M" & lro).Copy
+WS_DA.Range("L4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+'WS_DA.Range(Cells(R + 4, C + 12), Cells(R + lro + 2, C + 12)).Formula = "0"
 
 WS_In.Range("A2:A" & lro).Copy
 WS_DA.Range("E4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
@@ -742,6 +748,7 @@ WS_In.Range("J2:J" & lro).Copy
 WS_DA.Range("I4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
 
 WS_DA.Range("P4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+
 
 WS_DA.Range(Cells(R + 4, C + 9), Cells(R + lro + 2, C + 9)).NumberFormat = "[$-14009]dd-mm-yyyy;@"
 WS_DA.Range(Cells(R + 4, C + 16), Cells(R + lro + 2, C + 16)).NumberFormat = "[$-14009]dd-mm-yyyy;@"
@@ -797,13 +804,11 @@ Sub pHERDD()
     Next i
     lro = WS_In.Cells(Rows.Count, "B").End(xlUp).Row
     
-    'In Ticket Number column if it contains 'SR' considering ticket type as SRQ or if it is 'IN' considering as INC   @Shambhavi
+    'Considering SRQ as ticket type for all case, if priority is 3 then only considering ticket type as INC    @Shambhavi
     For i = 2 To lro
-        If Left(Cells(i, 5).Value, 2) = "IN" Then
+        Cells(i, 2).Value = "SRQ"
+        If Cells(i, 11).Value = 1 Then
             Cells(i, 2).Value = "INC"
-        End If
-        If Left(Cells(i, 5).Value, 2) = "SR" Then
-            Cells(i, 2).Value = "SRQ"
         End If
     Next i
 

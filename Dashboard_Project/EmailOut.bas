@@ -45,9 +45,9 @@ Sub MailToCloud()
             & "<img src='cid:DashboardFile.jpg'" & "align=center width=width height=heigth><br><br>" _
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
-        sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
+        sNam = "\" & "COPS Dashboard " & Date - 1 & ".xlsm"
         .Attachments.Add TempFilePath & sNam
-        TempFilePath = "D:\Project COPS DashBoard\DashBoardBackup\MainData backup\MainData " & dateOfAnalysis & ".xlsx"
+        TempFilePath = "D:\Project COPS DashBoard\DashBoardBackup\MainData backup\MainData " & Date - 1 & ".xlsx"
         .Attachments.Add TempFilePath
         .Send
     End With
@@ -58,7 +58,7 @@ Sub MailToCloud()
 
 End Sub
 
-Sub pCopyChart(source As String, target As String)
+Sub pCopyChart(source As String, Target As String)
 '========================================================================================================
 ' DeleteEmbeddedCharts
 ' -------------------------------------------------------------------------------------------------------
@@ -78,91 +78,91 @@ Sub pCopyChart(source As String, target As String)
     Dim cht As Chart
     
 '   Deleting old charts
-    Call pDelCharts(target)
+    Call pDelCharts(Target)
     
 '   Copying New Charts
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(1).Select
     ThisWorkbook.Worksheets(source).ChartObjects(1).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("C5").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("C5").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(6).Select
     ThisWorkbook.Worksheets(source).ChartObjects(6).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("D5").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("D5").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(2).Select
     ThisWorkbook.Worksheets(source).ChartObjects(2).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("C9").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("C9").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(7).Select
     ThisWorkbook.Worksheets(source).ChartObjects(7).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("D9").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("D9").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(3).Select
     ThisWorkbook.Worksheets(source).ChartObjects(3).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("C12").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("C12").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(9).Select
     ThisWorkbook.Worksheets(source).ChartObjects(9).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("D12").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("D12").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(4).Select
     ThisWorkbook.Worksheets(source).ChartObjects(4).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("C14").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("C14").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(8).Select
     ThisWorkbook.Worksheets(source).ChartObjects(8).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("D14").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("D14").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(10).Select
     ThisWorkbook.Worksheets(source).ChartObjects(10).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("E5").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("E5").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(11).Select
     ThisWorkbook.Worksheets(source).ChartObjects(11).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("E9").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("E9").Select
     ActiveSheet.Paste
     
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(12).Select
     ThisWorkbook.Worksheets(source).ChartObjects(12).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("E12").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("E12").Select
     ActiveSheet.Paste
 
     Worksheets(source).Activate
     ThisWorkbook.Worksheets(source).ChartObjects(13).Select
     ThisWorkbook.Worksheets(source).ChartObjects(13).Copy
-    Worksheets(target).Activate
-    ThisWorkbook.Worksheets(target).Range("E14").Select
+    Worksheets(Target).Activate
+    ThisWorkbook.Worksheets(Target).Range("E14").Select
     ActiveSheet.Paste
     
 End Sub
@@ -211,7 +211,7 @@ Sub pAutoEmail()
             & "<img src='cid:DashboardFile.jpg'" & "align=center width=width height=heigth><br><br>" _
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
-        sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
+        sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsm"
         .Attachments.Add TempFilePath & sNam
         .Send
     End With
@@ -290,12 +290,12 @@ Next
 
 End Sub
 
-Sub pDelCharts(target As String)
+Sub pDelCharts(Target As String)
 ' Purpose   :   To delete all the available charts on the sheet 'REP'
 
     Dim wsItem As Worksheet
     Dim chtObj As ChartObject
-        For Each chtObj In ThisWorkbook.Worksheets(target).ChartObjects
+        For Each chtObj In ThisWorkbook.Worksheets(Target).ChartObjects
             chtObj.Delete
         Next
 End Sub

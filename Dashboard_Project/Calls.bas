@@ -94,7 +94,7 @@ On Error GoTo ErrorHandler
       Sheets("Incident").Range("a1").Select
       Sheets("Incident").Visible = xlSheetVeryHidden
     End If
-    
+
     If fSheetExists("MasterSheet") = True Then
       Sheets("MasterSheet").Activate
       Sheets("MasterSheet").Range("a1").Select
@@ -293,70 +293,121 @@ Dim sPath As String
 Dim wkb As Workbook
 Dim sNam As String
 Dim sWSNam As String
+Dim newName As String
+Dim Path As String
+Dim oldName As String
+
 sPath = Application.ActiveWorkbook.Path
 
-'Adding New Workbook
-Set wkb = Workbooks.Add
-'Saving the Workbook
-sNam = sPath & "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsx"
-wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConflictResolution.xlLocalSessionChanges
-sWSNam = "COPS Dashboard " & dateOfAnalysis & ".xlsx"
+sNam = sPath & "\" & "COPS Dashboard" & ".xlsm"
+Path = sPath & "\"
+oldName = "COPS Dashboard" & ".xlsm"
+newName = "COPS Dashboard" & " " & dateOfAnalysis & ".xlsm"
+Set wkb = Workbooks.Open(sNam)
+'wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConflictResolution.xlLocalSessionChanges
+sWSNam = "COPS Dashboard " & ".xlsm"
 
-    Windows(sCFilNam).Activate
+wkb.Activate
+If fSheetExists("Sheet1") = False Then
+     wkb.Sheets.Add Before:=Worksheets(Worksheets.Count)
+End If
+
+    wkb.Activate
+If fSheetExists("Project or Cluster") = True Then
+    Sheets("Project or Cluster").Delete
+End If
+If fSheetExists("MainData") = True Then
+    Sheets("MainData").Delete
+End If
 If fSheetExists("NYL") = True Then
-    Sheets("Nyl").Select
-    Sheets("Nyl").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("NYL").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("Master Card EMO") = True Then
-    Sheets("Master Card EMO").Select
-    Sheets("Master Card EMO").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("Master Card EMO").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("Master Card ESM") = True Then
-    Sheets("Master Card ESM").Select
-    Sheets("Master Card ESM").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("Master Card ESM").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("ATIC") = True Then
-    Sheets("ATIC").Select
-    Sheets("ATIC").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("ATIC").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("IQPC") = True Then
-    Sheets("IQPC").Select
-    Sheets("IQPC").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("IQPC").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("Hertz") = True Then
-    Sheets("Hertz").Select
-    Sheets("Hertz").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("Hertz").Delete
 End If
-
-    Windows(sCFilNam).Activate
 If fSheetExists("LM") = True Then
-    Sheets("LM").Select
-    Sheets("LM").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("LM").Delete
 End If
 
     Windows(sCFilNam).Activate
 If fSheetExists("Project or Cluster") = True Then
     Sheets("Project or Cluster").Select
-    Sheets("Project or Cluster").Copy Before:=Workbooks(sWSNam).Sheets(1)
+    Sheets("Project or Cluster").Copy Before:=wkb.Sheets("Sheet1")
 End If
 
-  Windows(sWSNam).Activate
+    Windows(sCFilNam).Activate
+If fSheetExists("MainData") = True Then
+    Sheets("MainData").Select
+    ActiveWindow.Zoom = 75
+    Sheets("MainData").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("NYL") = True Then
+    Sheets("NYL").Select
+    Sheets("NYL").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("Master Card EMO") = True Then
+    Sheets("Master Card EMO").Select
+    Sheets("Master Card EMO").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("Master Card ESM") = True Then
+    Sheets("Master Card ESM").Select
+    Sheets("Master Card ESM").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("ATIC") = True Then
+    Sheets("ATIC").Select
+    Sheets("ATIC").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("IQPC") = True Then
+    Sheets("IQPC").Select
+    Sheets("IQPC").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("Hertz") = True Then
+    Sheets("Hertz").Select
+    Sheets("Hertz").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+    Windows(sCFilNam).Activate
+If fSheetExists("LM") = True Then
+    Sheets("LM").Select
+    Sheets("LM").Copy Before:=wkb.Sheets("Sheet1")
+End If
+
+
+  wkb.Activate
 If fSheetExists("Sheet1") = True Then
     Sheets("Sheet1").Delete
 End If
 
-Workbooks(sWSNam).Save
-Workbooks(sWSNam).Close
+Sheets("Project or Cluster").Activate
+Sheets("Project or Cluster").Range("J10").Select
+
+'Name Path & oldName As Path & newName
+wkb.Save
+wkb.Close
 Call pCopyMainData
 
 
@@ -400,6 +451,9 @@ If fSheetExists("MainData") = True Then
          .Color = RGB(148, 138, 84)
         End With
     Next BI
+    
+    lro = lro + 1
+    Sheets("MainData").Range(Cells(lro, 1), Cells(lro + 5000, 30)).Delete Shift:=xlUp
     
     Columns("I:I").Select
     Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"

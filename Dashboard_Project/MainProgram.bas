@@ -479,6 +479,8 @@ Else
     Sheets(sMSh).Cells(lro + 1, 1).PasteSpecial Paste:=xlPasteFormats
 End If
 
+Sheets(sPCl).Activate
+ActiveWindow.Zoom = 75
 'Making a duplicate Copy of project or cluster with Client Name
 Sheets(sPCl).Copy after:=Sheets(sMSh)
 ActiveSheet.Name = sSh
