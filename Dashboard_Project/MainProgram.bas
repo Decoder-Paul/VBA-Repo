@@ -411,6 +411,7 @@ Dim sMSh As String
 Dim lro As Long
 Dim iCh As Byte
 Dim sPCl As String
+Dim BI As Variant
 
 Dim WB As Workbook
 Dim WS_DA As Worksheet
@@ -424,7 +425,8 @@ Set WB = ActiveWorkbook
 Set WS_DA = WB.Sheets(sMDa)
 Set WS_MS = WB.Sheets(sMSh)
 
-'Combined Report
+' Combined Report
+' This section is called when it is last called
 If sSh = "last" Then
     Sheets(sMDa).Activate
     Sheets(sMDa).Range("a1").Select
@@ -441,11 +443,48 @@ If sSh = "last" Then
     
     Sheets(sMDa).Activate
     WS_DA.Range("a4").PasteSpecial Paste:=xlPasteValues
+    
+'This is to format all the main data details
+'Project dashboard Workbook  selecting then MainData sheet Selecting Formating
+    Windows(sCFilNam).Activate
+    
+    If fSheetExists("MainData") = True Then
+        Sheets("MainData").Select
+        lro = Cells(Rows.Count, "A").End(xlUp).Row
+    'Maindata formating
+        Sheets("MainData").Range(Cells(2, 1), Cells(lro, 16)).Select
+        With Selection
+            .Font.Size = 10
+            .Font.Name = "Calibri"
+        End With
+    
+        For Each BI In Array(xlEdgeTop, xlEdgeLeft, xlEdgeBottom, xlEdgeRight, xlInsideHorizontal, xlInsideVertical)
+            With Range(Cells(4, 1), Cells(lro, 16)).Borders(BI)
+            .Weight = xlThin
+            .Color = RGB(148, 138, 84)
+            End With
+        Next BI
+    
+        lro = lro + 1
+        Sheets("MainData").Range(Cells(lro, 1), Cells(lro + 5000, 30)).Delete Shift:=xlUp
+    
+        Columns("I:I").Select
+        Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
+        Columns("J:J").Select
+        Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
+        Columns("P:P").Select
+        Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
+    End If
+    
+    'After this program go to the end of this program without Execuiting the Normal report
+    
     GoTo mm
     
 End If
 
-'Normal Report
+' This section is Applicable when each client is called
+' Normal Report
+
     If fSheetExists(sMDa) = False Then
     
         Call pSheetCreate(sMDa)

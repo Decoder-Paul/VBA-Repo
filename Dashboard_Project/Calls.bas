@@ -140,8 +140,8 @@ Sub pOpenApp()
     If fSheetExists("MasterSheet") = True Then
         Sheets("MasterSheet").Activate
         Sheets("MasterSheet").Range("a1").Select
-        Cells.Select
-        Selection.Clear
+        Sheets("MasterSheet").Delete
+        Call pSheetCreate("MasterSheet")
         Else
         Call pSheetCreate("MasterSheet")
         
@@ -150,8 +150,8 @@ Sub pOpenApp()
     If fSheetExists("Incident") = True Then
         Sheets("Incident").Activate
         Sheets("Incident").Range("a1").Select
-        Cells.Select
-        Selection.Clear
+        Sheets("Incident").Delete
+        Call pSheetCreate("Incident")
         Else
         Call pSheetCreate("Incident")
     End If
@@ -292,6 +292,7 @@ Sub pCopsDB()
 Dim sPath As String
 Dim wkb As Workbook
 Dim sNam As String
+Dim dNam As String
 Dim sWSNam As String
 Dim newName As String
 Dim Path As String
@@ -300,18 +301,26 @@ Dim oldName As String
 sPath = Application.ActiveWorkbook.Path
 
 sNam = sPath & "\" & "COPS Dashboard" & ".xlsm"
+dNam = sPath & "Backup" & "\COPS DashBoard Backup\" & "COPS Dashboard" & ".xlsm"
 Path = sPath & "\"
-oldName = "COPS Dashboard" & ".xlsm"
-newName = "COPS Dashboard" & " " & dateOfAnalysis & ".xlsm"
-Set wkb = Workbooks.Open(sNam)
-'wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConflictResolution.xlLocalSessionChanges
+newName = sPath & "Backup" & "\COPS DashBoard Backup\" & "COPS Dashboard " & dateOfAnalysis & ".xlsm"
+    
+'Copy COPS Dashboard file in Dashboard folder to COPS DashBoard Backup folder and renaming with date
+If Dir(newName) = "" Then
+    FileCopy sNam, dNam
+    Name dNam As newName
+End If
+
+Set wkb = Workbooks.Open(newName)
 sWSNam = "COPS Dashboard " & ".xlsm"
 
+'creating sheet1 if not exists in COPS Dashboard
 wkb.Activate
 If fSheetExists("Sheet1") = False Then
      wkb.Sheets.Add Before:=Worksheets(Worksheets.Count)
 End If
 
+'-----In the begining ckecking if any sheets exists in COPS Dashboard file,if exists deletting all the sheet-----
     wkb.Activate
 If fSheetExists("Project or Cluster") = True Then
     Sheets("Project or Cluster").Delete
@@ -340,7 +349,9 @@ End If
 If fSheetExists("LM") = True Then
     Sheets("LM").Delete
 End If
+'-----------------------------------------------------------------------------------------------------------
 
+'copying the sheets in Activeworksheet to the COPS Dashboard
     Windows(sCFilNam).Activate
 If fSheetExists("Project or Cluster") = True Then
     Sheets("Project or Cluster").Select
@@ -396,17 +407,18 @@ If fSheetExists("LM") = True Then
     Sheets("LM").Copy Before:=wkb.Sheets("Sheet1")
 End If
 
-
+'deleting sheet1 from COPS Dashboard
   wkb.Activate
 If fSheetExists("Sheet1") = True Then
     Sheets("Sheet1").Delete
 End If
 
+'Making default page as Project or Cluster
 Sheets("Project or Cluster").Activate
 Sheets("Project or Cluster").Range("J10").Select
 
-'Name Path & oldName As Path & newName
 wkb.Save
+
 wkb.Close
 Call pCopyMainData
 
@@ -433,37 +445,9 @@ wkb.SaveAs sNam, AccessMode:=xlExclusive, ConflictResolution:=Excel.XlSaveConfli
 sWSNam = "MainData " & dateOfAnalysis & ".xlsx"
 
     Windows(sCFilNam).Activate
-If fSheetExists("MainData") = True Then
-    Sheets("MainData").Select
-    
-    lro = Cells(Rows.Count, "A").End(xlUp).Row
-    'Maindata formating
-    
-    Sheets("MainData").Range(Cells(2, 1), Cells(lro, 16)).Select
-    With Selection
-        .Font.Size = 10
-        .Font.Name = "Calibri"
-    End With
-    
-    For Each BI In Array(xlEdgeTop, xlEdgeLeft, xlEdgeBottom, xlEdgeRight, xlInsideHorizontal, xlInsideVertical)
-        With Range(Cells(4, 1), Cells(lro, 16)).Borders(BI)
-         .Weight = xlThin
-         .Color = RGB(148, 138, 84)
-        End With
-    Next BI
-    
-    lro = lro + 1
-    Sheets("MainData").Range(Cells(lro, 1), Cells(lro + 5000, 30)).Delete Shift:=xlUp
-    
-    Columns("I:I").Select
-    Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
-    Columns("J:J").Select
-    Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
-    Columns("P:P").Select
-    Selection.NumberFormat = "[$-14009]dd-mm-yyyy;@"
         
     Sheets("MainData").Copy Before:=Workbooks(sWSNam).Sheets(1)
-End If
+
 
 Workbooks(sWSNam).Save
 Workbooks(sWSNam).Close

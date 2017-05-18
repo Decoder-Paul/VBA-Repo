@@ -22,7 +22,9 @@ Sub MailToCloud()
     Dim strbody As String
     Dim TempFilePath As String
     Dim sNam As String
-    
+    Dim dNam As String
+   
+    dNam = ThisWorkbook.Path & "Backup" & "\COPS DashBoard Backup"
     'Create a new Microsoft Outlook session
     Set OutApp = CreateObject("outlook.application")
     'create a new message
@@ -46,7 +48,7 @@ Sub MailToCloud()
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
         sNam = "\" & "COPS Dashboard " & Date - 1 & ".xlsm"
-        .Attachments.Add TempFilePath & sNam
+        .Attachments.Add dNam & sNam
         TempFilePath = "D:\Project COPS DashBoard\DashBoardBackup\MainData backup\MainData " & Date - 1 & ".xlsx"
         .Attachments.Add TempFilePath
         .Send
@@ -188,7 +190,9 @@ Sub pAutoEmail()
     Dim strbody As String
     Dim TempFilePath As String
     Dim sNam As String
+    Dim dNam As String
     
+    dNam = ThisWorkbook.Path & "Backup" & "\COPS DashBoard Backup"
     'Create a new Microsoft Outlook session
     Set OutApp = CreateObject("outlook.application")
     'create a new message
@@ -212,7 +216,7 @@ Sub pAutoEmail()
             & "<br><br></font></span>" & .HTMLBody
         'Attachment of COPS Dashboard Excel File
         sNam = "\" & "COPS Dashboard " & dateOfAnalysis & ".xlsm"
-        .Attachments.Add TempFilePath & sNam
+        .Attachments.Add dNam & sNam
         .Send
     End With
     On Error GoTo 0
