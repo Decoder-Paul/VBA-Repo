@@ -1,10 +1,8 @@
 Dim WB As Workbook
 Dim WS_Main As Worksheet
 Dim WS_Slave As Worksheet
-Set WB = ActiveWorkbook
-Set WS_Main = WB.Sheets("Main")
-Set WS_Slave = WB.Sheets("Sheet1")
-Sub SplitCells(i As Integer)
+
+Sub SplitCells(ByVal i As Integer)
     Dim comNo As String     'Computer Name
     Dim dType As String     'Device Type
     Dim OSver As String     'OS Version
@@ -23,18 +21,18 @@ Sub SplitCells(i As Integer)
     OS = WS_Main.Cells(i, 7)
     LRT = WS_Main.Cells(i, 8)
     lro = WS_Slave.Cells(Rows.Count, "F").End(xlUp).Row
-    WS_Main.Cells(i, 6).Select
-    If Len(ActiveCell.Value) Then
-        str = VBA.Split(ActiveCell.Value, vbLf)
+    
+    If Len(WS_Main.Cells(i, 6).Value) Then
+        str = VBA.Split(WS_Main.Cells(i, 6).Value, vbLf)
         For i = 0 To UBound(str)
-            WS_Slave.Cells(lro + i + 2, 6).Value = str(i)
-            WS_Slave.Cells(lro + i + 2, 1).Value = comNo
-            WS_Slave.Cells(lro + i + 2, 2).Value = dType
-            WS_Slave.Cells(lro + i + 2, 3).Value = OSver
-            WS_Slave.Cells(lro + i + 2, 4).Value = TLS
-            WS_Slave.Cells(lro + i + 2, 5).Value = ip
-            WS_Slave.Cells(lro + i + 2, 7).Value = OS
-            WS_Slave.Cells(lro + i + 2, 8).Value = LRT
+            WS_Slave.Cells(lro + i + 1, 6).Value = str(i)
+            WS_Slave.Cells(lro + i + 1, 1).Value = comNo
+            WS_Slave.Cells(lro + i + 1, 2).Value = dType
+            WS_Slave.Cells(lro + i + 1, 3).Value = OSver
+            WS_Slave.Cells(lro + i + 1, 4).Value = TLS
+            WS_Slave.Cells(lro + i + 1, 5).Value = ip
+            WS_Slave.Cells(lro + i + 1, 7).Value = OS
+            WS_Slave.Cells(lro + i + 1, 8).Value = LRT
         Next i
     End If
     
@@ -49,6 +47,9 @@ Sub main()
     Dim i As Long
     Dim l As Long
     Dim Data_rowCount As Long
+    Set WB = ActiveWorkbook
+    Set WS_Main = WB.Sheets("Main")
+    Set WS_Slave = WB.Sheets("Sheet1")
     
     Data_rowCount = WS_Main.Cells(Rows.Count, "A").End(xlUp).Row
     
