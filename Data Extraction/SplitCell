@@ -1,0 +1,61 @@
+Dim WB As Workbook
+Dim WS_Main As Worksheet
+Dim WS_Slave As Worksheet
+Set WB = ActiveWorkbook
+Set WS_Main = WB.Sheets("Main")
+Set WS_Slave = WB.Sheets("Sheet1")
+Sub SplitCells(i As Integer)
+    Dim comNo As String     'Computer Name
+    Dim dType As String     'Device Type
+    Dim OSver As String     'OS Version
+    Dim TLS As String       'Time OF Last Scan(BFI)
+    Dim ip As String        'IP Address
+    Dim OS As String        'OS
+    Dim LRT As String       'Last Report Time
+    'list of apps to be stored in str
+    Dim str() As String
+    Dim lro As Long
+    comNo = WS_Main.Cells(i, 1)
+    dType = WS_Main.Cells(i, 2)
+    OSver = WS_Main.Cells(i, 3)
+    TLS = WS_Main.Cells(i, 4)
+    ip = WS_Main.Cells(i, 5)
+    OS = WS_Main.Cells(i, 7)
+    LRT = WS_Main.Cells(i, 8)
+    lro = WS_Slave.Cells(Rows.Count, "F").End(xlUp).Row
+    WS_Main.Cells(i, 6).Select
+    If Len(ActiveCell.Value) Then
+        str = VBA.Split(ActiveCell.Value, vbLf)
+        For i = 0 To UBound(str)
+            WS_Slave.Cells(lro + i + 2, 6).Value = str(i)
+            WS_Slave.Cells(lro + i + 2, 1).Value = comNo
+            WS_Slave.Cells(lro + i + 2, 2).Value = dType
+            WS_Slave.Cells(lro + i + 2, 3).Value = OSver
+            WS_Slave.Cells(lro + i + 2, 4).Value = TLS
+            WS_Slave.Cells(lro + i + 2, 5).Value = ip
+            WS_Slave.Cells(lro + i + 2, 7).Value = OS
+            WS_Slave.Cells(lro + i + 2, 8).Value = LRT
+        Next i
+    End If
+    
+End Sub
+Private Sub CreateSheet()
+    Dim ws As Worksheet
+    With ThisWorkbook
+        Set ws = .Sheets.Add(After:=.Sheets(.Sheets.Count))
+    End With
+End Sub
+Sub main()
+    Dim i As Long
+    Dim l As Long
+    Dim Data_rowCount As Long
+    
+    Data_rowCount = WS_Main.Cells(Rows.Count, "A").End(xlUp).Row
+    
+    For i = 2 To Data_rowCount
+        If i Mod 8000 = 0 Then
+            Set WS_Slave = WB.Sheets("Sheet" & (i \ 8000))
+        End If
+        Call SplitCells(i)
+    Next
+End Sub
