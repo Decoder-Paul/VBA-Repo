@@ -1,5 +1,5 @@
 Attribute VB_Name = "RandomPair"
-Sub RandomPair()
+Sub CreatePair()
 '========================================================================================================
 ' RandomPair
 ' -------------------------------------------------------------------------------------------------------
@@ -22,8 +22,9 @@ Sub RandomPair()
     Dim l As Integer
     Dim ind As Integer
     Dim teams() As Variant
+    Dim randomIndex() As Long
     Dim rng As Range, cel As Range
-    lb = 2
+    lb = 1
     lro = Sheets("Team Group").Cells(Rows.Count, "A").End(xlUp).Row
     l = Round(lro / 2, 0)
     If l Mod 2 <> 0 Then
@@ -33,11 +34,24 @@ Sub RandomPair()
     End If
     Set rng = Range("A2:A" & lro)
     teams = rng
+    ReDim randomIndex(lro)
     ub = UBound(teams)
-    
+    For i = 1 To ub
+loo:    ind = WorksheetFunction.RandBetween(lb, ub)
+        If IsError(Application.Match(ind, randomIndex, False)) Then
+            randomIndex(i) = ind
+            Cells(i + 1, 2).Value = teams(ind, 1)
+        Else
+            GoTo loo
+        End If
+    Next i
+    'teams updated with randomized set of participants
+    Set rng = Range("B2:B" & lro)
+    teams = rng
+    lb = 2
     For i = 1 To l
         Cells(i + 1, 4).Value = teams(i, 1)
-       ind = WorksheetFunction.RandBetween(lb, ub)
+        ind = WorksheetFunction.RandBetween(lb, ub)
         Cells(i + 1, 5).Value = teams(ind, 1)
         teams(ind, 1) = "0"
         For j = ind To ub - 1
